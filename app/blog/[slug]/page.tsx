@@ -1,16 +1,27 @@
 type Params = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-export async function generateMetadata({ params }: Params) {
-  return { title: `Post: ${params.slug}` };
+export function generateStaticParams() {
+  return [
+    { slug: 'hello' },
+    { slug: 'test' },
+    { slug: 'github-actions' },
+  ];
 }
 
-export default function Page({ params }: Params) {
-  return<> <h1>Slug: {params.slug}</h1>
-  <p>HoldeTex</p>
-  <p>Welcome to the Next.js</p>
-  </>
+export const dynamicParams = false;
+
+export default async function Page({ params }: Params) {
+  const { slug } = await params;
+
+  return (
+    <>
+      <h1>Slug: {slug}</h1>
+      <p>HoldeTex</p>
+      <p>Welcome to the Next.js</p>
+    </>
+  );
 }
